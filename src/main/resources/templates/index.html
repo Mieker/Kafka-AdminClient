@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kafka Admin Client</title>
+</head>
+<body>
+<h1>Kafka Admin Client</h1>
+<form action="#" th:action="@{/submit}" method="post">
+    <label for="stringInput">Topic name:</label>
+    <input type="text" id="stringInput" name="stringValue" th:value="${stringValue}" />
+
+    <label for="intInput">Number of partitions:</label>
+    <input type="number" id="intInput" name="intValue" th:value="${intValue}" />
+
+    <label for="shortInput">Number of replicas:</label>
+    <input type="number" id="shortInput" name="shortValue" th:value="${shortValue}" />
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

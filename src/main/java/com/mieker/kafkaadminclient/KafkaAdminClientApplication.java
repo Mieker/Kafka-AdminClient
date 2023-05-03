@@ -7,6 +7,7 @@ import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,30 +22,34 @@ public class KafkaAdminClientApplication {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         SpringApplication.run(KafkaAdminClientApplication.class, args);
 
-        Properties properties = new Properties();
-        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-
-        AdminClient adminClient = AdminClient.create(properties);
-
         Set<String> topics = adminClient.listTopics().names().get();
 
         for (String topic : topics) {
             log.info(topic);
         }
 
-        NewTopic thirdTopic = new NewTopic("third_topic", 3, (short) 1);
-
-        adminClient.createTopics(List.of(thirdTopic)).all().get();
-
-        for (String topic : topics) {
-            log.info(topic);
-        }
+//        NewTopic thirdTopic = new NewTopic("third_topic", 3, (short) 1);
+//
+//        adminClient.createTopics(List.of(thirdTopic)).all().get();
+//
+//        for (String topic : topics) {
+//            log.info(topic);
+//        }
 
 //        adminClient.deleteTopics(Collections.singleton("third_topic"));
 //
 //        for (String topic : topics) {
 //            log.info(topic);
 //        }
+    }
+
+    @Bean
+    public AdminClient getAdminClient() {
+
+        //TODO: setup Bean for controller to extract variables to create new topics
+        Properties properties = new Properties();
+        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        return AdminClient.create(properties);
     }
 
 }
