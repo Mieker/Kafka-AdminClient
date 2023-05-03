@@ -18,7 +18,8 @@ public class KafkaAdminClientApplication {
     }
 
     @Bean
-    public AdminClient getAdminClient() {
+    public AdminClient adminClient() {
+        //TODO: extract this bean to configuration class
         Properties properties = new Properties();
         properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         return AdminClient.create(properties);

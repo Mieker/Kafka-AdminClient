@@ -25,6 +25,7 @@ public class AdminClientController {
             @RequestParam String topicName, @RequestParam int partitionsNumber, @RequestParam short replicasNumber)
             throws ExecutionException, InterruptedException {
 
+        //TODO: extract all logic to service class
         NewTopic thirdTopic = new NewTopic(topicName, partitionsNumber, replicasNumber);
         adminClient.createTopics(List.of(thirdTopic)).all().get();
 
@@ -32,16 +33,15 @@ public class AdminClientController {
         modelAndView.setViewName("index");
         modelAndView.addObject("successMessage", "Topic " + topicName + " created!");
 
+        logAllTopics();
+
         return modelAndView;
     }
 
     @PostMapping("/delete-topic")
     public String deleteTopic(@RequestParam String topicName) {
-
-        //TODO: implementation of deleting topics here
-
+        //TODO: implement deleting topics logic here
         //adminClient.deleteTopics(Collections.singleton("third_topic"));
-
         return null;
     }
 
