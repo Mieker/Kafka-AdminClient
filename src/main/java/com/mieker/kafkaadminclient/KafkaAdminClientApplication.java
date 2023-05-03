@@ -8,20 +8,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 @SpringBootApplication
 @Slf4j
 public class KafkaAdminClientApplication {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) {
         SpringApplication.run(KafkaAdminClientApplication.class, args);
-
-//        adminClient.deleteTopics(Collections.singleton("third_topic"));
-//
-//        for (String topic : topics) {
-//            log.info(topic);
-//        }
     }
 
     @Bean
