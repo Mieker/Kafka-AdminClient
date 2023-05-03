@@ -1,53 +1,36 @@
 package com.mieker.kafkaadminclient.controller;
 
+import com.mieker.kafkaadminclient.service.AdminClientService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 public class AdminClientController {
 
-    private final AdminClient adminClient;
+    private final AdminClientService adminClientService;
 
     @PostMapping("/create-topic")
     public ModelAndView createTopic(
             @RequestParam String topicName, @RequestParam int partitionsNumber, @RequestParam short replicasNumber)
             throws ExecutionException, InterruptedException {
 
-        //TODO: extract all logic to service class
-        NewTopic thirdTopic = new NewTopic(topicName, partitionsNumber, replicasNumber);
-        adminClient.createTopics(List.of(thirdTopic)).all().get();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        modelAndView.addObject("successMessage", "Topic " + topicName + " created!");
-
-        logAllTopics();
-
-        return modelAndView;
+        return adminClientService.createTopic(
+                topicName,
+                partitionsNumber,
+                replicasNumber
+        );
     }
 
     @PostMapping("/delete-topic")
-    public String deleteTopic(@RequestParam String topicName) {
-        //TODO: implement deleting topics logic here
-        //adminClient.deleteTopics(Collections.singleton("third_topic"));
-        return null;
+    public ModelAndView deleteTopic(@RequestParam String topicName) {
+        return adminClientService.deleteTopic(topicName);
     }
 
-    private void logAllTopics() throws ExecutionException, InterruptedException {
-        Set<String> topics = adminClient.listTopics().names().get();
-        topics.forEach(log::info);
-    }
 
 }
