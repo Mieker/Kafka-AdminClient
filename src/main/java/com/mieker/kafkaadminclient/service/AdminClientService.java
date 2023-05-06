@@ -18,18 +18,16 @@ public class AdminClientService {
 
     private final AdminClient adminClient;
 
-    public ModelAndView createTopic(String topicName, int partitionsNumber, short replicasNumber)
+    public Set<String> getAllTopics() throws ExecutionException, InterruptedException {
+        return adminClient.listTopics().names().get();
+    }
+
+    public void createTopic(String topicName, int partitionsNumber, short replicasNumber)
             throws ExecutionException, InterruptedException {
 
         NewTopic thirdTopic = new NewTopic(topicName, partitionsNumber, replicasNumber);
         adminClient.createTopics(List.of(thirdTopic)).all().get();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        modelAndView.addObject("successMessage", "Topic " + topicName + " created!");
-
         logAllTopics();
-        return modelAndView;
     }
 
     //TODO: implement deleting topics logic here
