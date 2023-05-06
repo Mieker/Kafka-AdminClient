@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <title>Kafka Admin Client</title>
     <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+
+        <!--   TODO: extract this js to separated file     -->
+
+        function deleteTopic(element) {
+            var topicName = element.getAttribute("data-topicname");
+            if (confirm("Czy na pewno chcesz usunąć temat '" + topicName + "'?")) {
+                window.location.href = "/delete-topic?topicName=" + encodeURIComponent(topicName);
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -26,7 +37,7 @@
     <div>
         <h1>Kafka topics:</h1>
         <ul>
-            <li th:each="topic : ${topics}">
+            <li th:each="topic : ${topics}" th:data-topicname="${topic}" onclick="deleteTopic(this)">
                 <p th:text="${topic}"></p>
             </li>
         </ul>

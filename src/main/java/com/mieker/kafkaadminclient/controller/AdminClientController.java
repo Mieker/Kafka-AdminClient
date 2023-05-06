@@ -2,8 +2,10 @@ package com.mieker.kafkaadminclient.controller;
 
 import com.mieker.kafkaadminclient.service.AdminClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +35,12 @@ public class AdminClientController {
 
         adminClientService.createTopic(topicName, partitionsNumber, replicasNumber);
         redirectAttributes.addFlashAttribute("successMessage", "Topic " + topicName + " created!");
+        return "redirect:";
+    }
+
+    @GetMapping("/delete-topic")
+    public String deleteTopic(@RequestParam("topicName") String topicName) {
+        adminClientService.deleteTopic(topicName);
         return "redirect:";
     }
 

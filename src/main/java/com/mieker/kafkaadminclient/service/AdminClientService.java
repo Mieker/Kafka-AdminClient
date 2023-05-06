@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -30,11 +30,8 @@ public class AdminClientService {
         logAllTopics();
     }
 
-    //TODO: implement deleting topics logic here
-    public ModelAndView deleteTopic(String topicName) {
-
-        //adminClient.deleteTopics(Collections.singleton("third_topic"));
-        return null;
+    public void deleteTopic(String topicName) {
+        adminClient.deleteTopics(Collections.singleton(topicName));
     }
 
     private void logAllTopics() throws ExecutionException, InterruptedException {
