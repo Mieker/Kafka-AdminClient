@@ -1,6 +1,7 @@
 package com.mieker.kafkaadminclient.controller;
 
 import com.mieker.kafkaadminclient.service.AdminClientService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,13 @@ import java.util.concurrent.ExecutionException;
 public class AdminClientController {
 
     private final AdminClientService adminClientService;
+
+    @PostMapping("/connect")
+    public String connect(HttpSession session, @RequestParam("brokerUrl") String brokerUrl) {
+        boolean isConnected = adminClientService.connectAdminClient(brokerUrl);
+        session.setAttribute("kafkaConnected", isConnected);
+        return "redirect:";
+    }
 
     @GetMapping("/")
     public String getAllTopics(Model model) throws ExecutionException, InterruptedException {

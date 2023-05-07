@@ -5,6 +5,76 @@ body {
     background-color: #f5f5f5;
 }
 
+header {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+button:disabled {
+    background-color: #dddddd;
+    cursor: not-allowed;
+}
+
+.connect-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.connect-panel form {
+    text-align: left;
+}
+
+.connect-panel label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.connect-panel input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.connect-panel button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.connect-panel button:disabled {
+    background-color: #dddddd;
+    cursor: not-allowed;
+}
+
+.connected-message {
+    font-size: 14px;
+    color: #007bff;
+    margin-top: 8px;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
@@ -13,6 +83,7 @@ body {
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: auto;
 }
 
 form {
@@ -51,14 +122,22 @@ ul {
     flex: 1;
     list-style-type: none;
     padding-left: 0;
+    padding-right: 20px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 ul li {
     margin-bottom: 5px;
     padding: 2px 10px;
+    width: calc(100% - 10px);
     background-color: #f2f2f2;
     border-radius: 4px;
     color: #333333;
+}
+
+ul li:hover {
+    cursor: pointer;
 }
 
 ul li p {
