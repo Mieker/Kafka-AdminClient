@@ -4,18 +4,6 @@
     <meta charset="UTF-8">
     <title>Kafka Admin Client</title>
     <link rel="stylesheet" href="/css/style.css"/>
-    <script th:inline="javascript">
-
-        <!--   TODO: extract this js to separated file     -->
-
-        function deleteTopic(element) {
-            var topicName = element.getAttribute("data-topicname");
-            if (confirm("Are you sure to delete Kafka topic '" + topicName + "'?")) {
-                window.location.href = "/delete-topic?topicName=" + encodeURIComponent(topicName);
-            }
-        }
-
-    </script>
 </head>
 <body>
 <header><h1>Kafka Admin Client</h1></header>
@@ -53,5 +41,6 @@
         </ul>
     </div>
 </div>
+<script src="/js/script.js"></script>
 </body>
 </html>
