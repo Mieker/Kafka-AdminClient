@@ -26,6 +26,7 @@ button:disabled {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -78,12 +79,29 @@ button:disabled {
 .container {
     display: flex;
     justify-content: space-between;
-    max-width: 800px;
+    max-width: 840px;
     margin: 0 auto;
+    padding: 0px 20px;
+    overflow: auto;
+}
+
+.topic-list-panel,
+.topic-form-panel {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: auto;
+}
+
+.topic-list-panel,
+.topic-form-panel {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.topic-list-panel h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333333;
 }
 
 form {
@@ -99,7 +117,7 @@ form label {
 }
 
 form input {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 12px;
     border: 1px solid #cccccc;
@@ -123,7 +141,7 @@ ul {
     list-style-type: none;
     padding-left: 0;
     padding-right: 20px;
-    max-height: 400px;
+    max-height: 360px;
     overflow-y: auto;
 }
 
@@ -143,10 +161,4 @@ ul li:hover {
 ul li p {
     margin-top: 4px;
     margin-bottom: 4px
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333333;
 }
