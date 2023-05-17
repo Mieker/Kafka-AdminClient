@@ -156,6 +156,7 @@ ul li {
 
 ul li:hover {
     cursor: pointer;
+    background-color: #e4e4e4;
 }
 
 ul li p {
