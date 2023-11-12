@@ -1,53 +1,53 @@
 package com.mieker.kafkaadminclient.controller;
 
+import com.mieker.kafkaadminclient.service.AdminClientService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-@RestController
-@Slf4j
+@Controller
 @RequiredArgsConstructor
 public class AdminClientController {
 
-    private final AdminClient adminClient;
+    private final AdminClientService adminClientService;
+
+    @PostMapping("/connect")
+    public String connect(HttpSession session, @RequestParam("brokerUrl") String brokerUrl) {
+        boolean isConnected = adminClientService.connectAdminClient(brokerUrl);
+        session.setAttribute("kafkaConnected", isConnected);
+        return "redirect:";
+    }
+
+    @GetMapping("/")
+    public String getAllTopics(Model model) throws ExecutionException, InterruptedException {
+        Set<String> topics = adminClientService.getAllTopics();
+        model.addAttribute("topics", topics);
+        return "index";
+    }
 
     @PostMapping("/create-topic")
-    public ModelAndView createTopic(
+    public String createTopic(
+            RedirectAttributes redirectAttributes,
             @RequestParam String topicName, @RequestParam int partitionsNumber, @RequestParam short replicasNumber)
             throws ExecutionException, InterruptedException {
 
-        //TODO: extract all logic to service class
-        NewTopic thirdTopic = new NewTopic(topicName, partitionsNumber, replicasNumber);
-        adminClient.createTopics(List.of(thirdTopic)).all().get();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        modelAndView.addObject("successMessage", "Topic " + topicName + " created!");
-
-        logAllTopics();
-
-        return modelAndView;
+        adminClientService.createTopic(topicName, partitionsNumber, replicasNumber);
+        redirectAttributes.addFlashAttribute("successMessage", "Topic " + topicName + " created!");
+        return "redirect:";
     }
 
-    @PostMapping("/delete-topic")
-    public String deleteTopic(@RequestParam String topicName) {
-        //TODO: implement deleting topics logic here
-        //adminClient.deleteTopics(Collections.singleton("third_topic"));
-        return null;
-    }
-
-    private void logAllTopics() throws ExecutionException, InterruptedException {
-        Set<String> topics = adminClient.listTopics().names().get();
-        topics.forEach(log::info);
+    @GetMapping("/delete-topic")
+    public String deleteTopic(@RequestParam("topicName") String topicName) {
+        adminClientService.deleteTopic(topicName);
+        return "redirect:";
     }
 
 }

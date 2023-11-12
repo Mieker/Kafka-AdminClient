@@ -3,22 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Kafka Admin Client</title>
-    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<h1>Kafka Admin Client</h1>
-<form action="#" th:action="@{/create-topic}" method="post">
-    <label for="topicName">Topic name:</label>
-    <input type="text" id="topicName" name="topicName" th:value="${topicName}"/>
+<header><h1>Kafka Admin Client</h1></header>
+<div class="connect-panel">
+    <form action="#" th:action="@{/connect}" method="post">
+        <label for="brokerUrl">Broker url:</label>
+        <input type="text" id="brokerUrl" name="brokerUrl"/>
 
-    <label for="partitionsNumber">Number of partitions:</label>
-    <input type="number" id="partitionsNumber" name="partitionsNumber" th:value="${partitionsNumber}"/>
+        <button type="submit" th:disabled="${session.kafkaConnected}">Connect</button>
+        <p th:if="${session.kafkaConnected}" class="connected-message">Kafka connected!</p>
+    </form>
+</div>
+<div class="container">
+    <form class="topic-form-panel" action="#" th:action="@{/create-topic}" method="post">
+        <label for="topicName">Topic name:</label>
+        <input type="text" id="topicName" name="topicName" th:value="${topicName}"/>
 
-    <label for="replicasNumber">Number of replicas:</label>
-    <input type="number" id="replicasNumber" name="replicasNumber" th:value="${replicasNumber}"/>
+        <label for="partitionsNumber">Number of partitions:</label>
+        <input type="number" id="partitionsNumber" name="partitionsNumber" th:value="${partitionsNumber}"/>
 
-    <button type="submit">Create topic</button>
-</form>
-<p th:text="${successMessage}"></p>
+        <label for="replicasNumber">Number of replicas:</label>
+        <input type="number" id="replicasNumber" name="replicasNumber" th:value="${replicasNumber}"/>
+
+        <button type="submit" th:disabled="!(${session.kafkaConnected ?: false})">Create topic</button>
+        <p th:text="${successMessage}"></p>
+    </form>
+    <div class="topic-list-panel">
+        <h1>Kafka topics:</h1>
+        <ul>
+            <li th:each="topic : ${topics}" th:data-topicname="${topic}" onclick="deleteTopic(this)">
+                <p th:text="${topic}"></p>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="/js/script.js"></script>
 </body>
 </html>
